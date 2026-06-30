@@ -1,1 +1,1 @@
-"/home/can/Desktop/Dev/AI/Claude-Code-Masterclass/tests/layouts/dashboard-layout.test.tsx"
+"/home/can/Desktop/Dev/AI/Claude-Code-Masterclass/types/firestore/heist.ts"
