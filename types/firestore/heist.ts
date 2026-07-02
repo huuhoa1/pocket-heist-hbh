@@ -21,14 +21,14 @@ export interface Heist {
 }
 
 export interface CreateHeistInput {
-  createdAt: FieldValue;
+  createdAt: FieldValue; //serverTimestamp()
   title: string;
   description: string;
   createdBy: string;
   createdByCodename: string;
   assignedTo: string;
   assignedToCodename: string;
-  deadline: Timestamp;
+  deadline: Timestamp; //automatically 48 hours from creation date
   finalStatus: null;
 }
 

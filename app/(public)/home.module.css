@@ -1,0 +1,92 @@
+@reference "../globals.css";
+
+.splash {
+  @apply flex flex-col items-center justify-center min-h-lvh px-6 py-16 text-center;
+  max-width: 640px;
+  margin: 0 auto;
+  gap: 3rem;
+}
+
+.hero {
+  @apply flex flex-col items-center;
+  gap: 1rem;
+}
+
+.eyebrow {
+  @apply text-primary font-bold uppercase;
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+}
+
+.title {
+  @apply text-heading font-black leading-none;
+  font-size: clamp(3rem, 10vw, 5rem);
+}
+
+.logo {
+  display: inline-block;
+  width: 0.65em;
+  height: 0.65em;
+  vertical-align: -0.05em;
+}
+
+.tagline {
+  @apply text-body;
+  font-size: 1.125rem;
+}
+
+.specs {
+  @apply flex items-center justify-center w-full;
+  border-top: 1px solid rgba(153, 161, 175, 0.15);
+  border-bottom: 1px solid rgba(153, 161, 175, 0.15);
+  padding: 1.75rem 0;
+  gap: 2rem;
+}
+
+.spec {
+  @apply flex flex-col items-center;
+  gap: 0.375rem;
+}
+
+.specLabel {
+  @apply text-body font-semibold uppercase;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+}
+
+.specValue {
+  @apply text-heading font-semibold;
+  font-size: 1.125rem;
+}
+
+.specDivider {
+  width: 1px;
+  height: 2.5rem;
+  background: rgba(153, 161, 175, 0.15);
+  flex-shrink: 0;
+}
+
+.body {
+  @apply text-body leading-relaxed text-center;
+  font-size: 0.9375rem;
+  max-width: 480px;
+}
+
+.actions {
+  @apply flex flex-col items-center;
+  gap: 1rem;
+}
+
+.loginPrompt {
+  @apply text-body;
+  font-size: 0.875rem;
+}
+
+.loginLink {
+  @apply text-primary;
+  transition: color 0.15s ease;
+}
+
+.loginLink:hover {
+  @apply text-secondary;
+}
