@@ -1,1 +1,1 @@
-"/home/can/Desktop/Dev/AI/Claude-Code-Masterclass/hooks/useHeists.ts"
+"/home/can/Desktop/Dev/AI/Claude-Code-Masterclass/tests/components/HeistCard.test.tsx"

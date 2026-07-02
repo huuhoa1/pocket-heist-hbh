@@ -2,7 +2,7 @@
   "session_id": "fd7af397-89c7-4507-bbc3-10001d3a3e94",
   "transcript_path": "/home/can/.claude/projects/-home-can-Desktop-Dev-AI-Claude-Code-Masterclass/fd7af397-89c7-4507-bbc3-10001d3a3e94.jsonl",
   "cwd": "/home/can/Desktop/Dev/AI/Claude-Code-Masterclass",
-  "prompt_id": "bb905e02-52ea-4e78-97c7-a051634386a9",
+  "prompt_id": "7c8ee681-652c-46df-893f-e0911146ac85",
   "permission_mode": "acceptEdits",
   "effort": {
     "level": "high"
@@ -10,37 +10,39 @@
   "hook_event_name": "PostToolUse",
   "tool_name": "Edit",
   "tool_input": {
-    "file_path": "/home/can/Desktop/Dev/AI/Claude-Code-Masterclass/hooks/useHeists.ts",
-    "old_string": "    const unsubscribe = onSnapshot(q, (snapshot) => {\n      let docs = snapshot.docs.map((doc) => doc.data());\n      if (mode === \"expired\") {\n        docs = docs.filter((h) => h.finalStatus !== null);\n      }\n      setHeists(docs);",
-    "new_string": "    const unsubscribe = onSnapshot(q, (snapshot) => {\n      let docs: Heist[] = snapshot.docs.map((doc) => doc.data() as Heist);\n      if (mode === \"expired\") {\n        docs = docs.filter((h) => h.finalStatus !== null);\n      }\n      setHeists(docs);",
+    "file_path": "/home/can/Desktop/Dev/AI/Claude-Code-Masterclass/tests/components/HeistCard.test.tsx",
+    "old_string": "  createdAt: new Date(\"2024-01-01\"),\n  deadline: new Date(\"2024-07-03\"),",
+    "new_string": "  createdAt: new Date(2024, 0, 1),\n  deadline: new Date(2024, 6, 3),",
     "replace_all": false
   },
   "tool_response": {
-    "filePath": "/home/can/Desktop/Dev/AI/Claude-Code-Masterclass/hooks/useHeists.ts",
-    "oldString": "    const unsubscribe = onSnapshot(q, (snapshot) => {\n      let docs = snapshot.docs.map((doc) => doc.data());\n      if (mode === \"expired\") {\n        docs = docs.filter((h) => h.finalStatus !== null);\n      }\n      setHeists(docs);",
-    "newString": "    const unsubscribe = onSnapshot(q, (snapshot) => {\n      let docs: Heist[] = snapshot.docs.map((doc) => doc.data() as Heist);\n      if (mode === \"expired\") {\n        docs = docs.filter((h) => h.finalStatus !== null);\n      }\n      setHeists(docs);",
-    "originalFile": "\"use client\";\n\nimport { useState, useEffect } from \"react\";\nimport {\n  collection,\n  query,\n  where,\n  onSnapshot,\n  Timestamp,\n} from \"firebase/firestore\";\nimport db from \"@/lib/db\";\nimport { COLLECTIONS, heistConverter } from \"@/types/firestore\";\nimport type { Heist } from \"@/types/firestore\";\nimport { useUser } from \"@/hooks/useUser\";\n\nexport type HeistMode = \"active\" | \"assigned-by-me\" | \"expired\";\n\nexport function useHeists(mode: HeistMode): {\n  heists: Heist[];\n  loading: boolean;\n} {\n  const { uid } = useUser();\n  const [heists, setHeists] = useState<Heist[]>([]);\n  const [loading, setLoading] = useState(true);\n\n  useEffect(() => {\n    if (mode !== \"expired\" && !uid) return;\n\n    const ref = collection(db, COLLECTIONS.HEISTS).withConverter(\n      heistConverter,\n    );\n    const now = Timestamp.now();\n\n    const q =\n      mode === \"active\"\n        ? query(\n            ref,\n            where(\"assignedTo\", \"==\", uid),\n            where(\"deadline\", \">\", now),\n          )\n        : mode === \"assigned-by-me\"\n          ? query(\n              ref,\n              where(\"createdBy\", \"==\", uid),\n              where(\"deadline\", \">\", now),\n            )\n          : query(ref, where(\"deadline\", \"<\", now));\n\n    const unsubscribe = onSnapshot(q, (snapshot) => {\n      let docs = snapshot.docs.map((doc) => doc.data());\n      if (mode === \"expired\") {\n        docs = docs.filter((h) => h.finalStatus !== null);\n      }\n      setHeists(docs);\n      setLoading(false);\n    });\n\n    return unsubscribe;\n  }, [mode, uid]);\n\n  return { heists, loading };\n}\n",
+    "filePath": "/home/can/Desktop/Dev/AI/Claude-Code-Masterclass/tests/components/HeistCard.test.tsx",
+    "oldString": "  createdAt: new Date(\"2024-01-01\"),\n  deadline: new Date(\"2024-07-03\"),",
+    "newString": "  createdAt: new Date(2024, 0, 1),\n  deadline: new Date(2024, 6, 3),",
+    "originalFile": "import { render, screen } from \"@testing-library/react\";\nimport { describe, it, expect } from \"vitest\";\nimport HeistCard, { HeistCardSkeleton } from \"@/components/HeistCard\";\nimport { Heist } from \"@/types/firestore\";\n\nconst fakeHeist: Heist = {\n  id: \"h1\",\n  title: \"Steal the Stapler\",\n  description: \"Take it from desk 4B\",\n  createdBy: \"user-1\",\n  createdByCodename: \"IronFoxVault\",\n  assignedTo: \"user-2\",\n  assignedToCodename: \"SilentRavenCache\",\n  createdAt: new Date(\"2024-01-01\"),\n  deadline: new Date(\"2024-07-03\"),\n  finalStatus: null,\n};\n\ndescribe(\"HeistCard\", () => {\n  it(\"renders the heist title as a link to /heists/h1\", () => {\n    render(<HeistCard heist={fakeHeist} />);\n\n    const link = screen.getByRole(\"link\", { name: /steal the stapler/i });\n    expect(link).toBeInTheDocument();\n    expect(link).toHaveAttribute(\"href\", \"/heists/h1\");\n  });\n\n  it(\"renders assignedToCodename and createdByCodename\", () => {\n    render(<HeistCard heist={fakeHeist} />);\n\n    expect(screen.getByText(\"SilentRavenCache\")).toBeInTheDocument();\n    expect(screen.getByText(\"IronFoxVault\")).toBeInTheDocument();\n  });\n\n  it(\"renders the formatted deadline date\", () => {\n    render(<HeistCard heist={fakeHeist} />);\n\n    expect(screen.getByText(\"3 Jul\")).toBeInTheDocument();\n  });\n\n  it(\"does not render a status badge when finalStatus is null\", () => {\n    render(<HeistCard heist={fakeHeist} />);\n\n    expect(screen.queryByText(\"Success\")).not.toBeInTheDocument();\n    expect(screen.queryByText(\"Failure\")).not.toBeInTheDocument();\n  });\n\n  it(\"renders a Success badge when finalStatus is 'success'\", () => {\n    render(<HeistCard heist={{ ...fakeHeist, finalStatus: \"success\" }} />);\n\n    expect(screen.getByText(\"Success\")).toBeInTheDocument();\n  });\n\n  it(\"renders a Failure badge when finalStatus is 'failure'\", () => {\n    render(<HeistCard heist={{ ...fakeHeist, finalStatus: \"failure\" }} />);\n\n    expect(screen.getByText(\"Failure\")).toBeInTheDocument();\n  });\n});\n\ndescribe(\"HeistCardSkeleton\", () => {\n  it(\"renders without errors\", () => {\n    const { container } = render(<HeistCardSkeleton />);\n    expect(container.firstChild).toBeInTheDocument();\n  });\n});\n",
     "structuredPatch": [
       {
-        "oldStart": 47,
-        "oldLines": 7,
-        "newStart": 47,
-        "newLines": 7,
+        "oldStart": 11,
+        "oldLines": 8,
+        "newStart": 11,
+        "newLines": 8,
         "lines": [
-          "           : query(ref, where(\"deadline\", \"<\", now));",
-          " ",
-          "     const unsubscribe = onSnapshot(q, (snapshot) => {",
-          "-      let docs = snapshot.docs.map((doc) => doc.data());",
-          "+      let docs: Heist[] = snapshot.docs.map((doc) => doc.data() as Heist);",
-          "       if (mode === \"expired\") {",
-          "         docs = docs.filter((h) => h.finalStatus !== null);",
-          "       }"
+          "   createdByCodename: \"IronFoxVault\",",
+          "   assignedTo: \"user-2\",",
+          "   assignedToCodename: \"SilentRavenCache\",",
+          "-  createdAt: new Date(\"2024-01-01\"),",
+          "-  deadline: new Date(\"2024-07-03\"),",
+          "+  createdAt: new Date(2024, 0, 1),",
+          "+  deadline: new Date(2024, 6, 3),",
+          "   finalStatus: null,",
+          " };",
+          " "
         ]
       }
     ],
     "userModified": false,
     "replaceAll": false
   },
-  "tool_use_id": "toolu_01J2Wku1cD7xpFYjNKruJ6Pt",
-  "duration_ms": 60
+  "tool_use_id": "toolu_01W1C6wgyVpTrLwDuqGg9ktk",
+  "duration_ms": 57
 }
