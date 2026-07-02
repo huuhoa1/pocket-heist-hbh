@@ -1,6 +1,8 @@
 "use client";
 
 import { useHeists } from "@/hooks/useHeists";
+import HeistCard, { HeistCardSkeleton } from "@/components/HeistCard";
+import styles from "./heists.module.css";
 
 export default function HeistsPage() {
   const { heists: activeHeists, loading: activeLoading } = useHeists("active");
@@ -11,42 +13,50 @@ export default function HeistsPage() {
 
   return (
     <div className="page-content">
-      <div className="active-heists">
-        <h2>Your Active Heists</h2>
+      <div>
+        <h2 className={styles.sectionHeading}>Your Active Heists</h2>
         {activeLoading ? (
-          <p>Loading…</p>
+          <div className={styles.grid}>
+            <HeistCardSkeleton />
+            <HeistCardSkeleton />
+            <HeistCardSkeleton />
+          </div>
         ) : activeHeists.length === 0 ? (
-          <p>No active heists yet.</p>
+          <p className={styles.emptyState}>No active heists yet.</p>
         ) : (
-          <ul>
+          <div className={styles.grid}>
             {activeHeists.map((h) => (
-              <li key={h.id}>{h.title}</li>
+              <HeistCard key={h.id} heist={h} />
             ))}
-          </ul>
+          </div>
         )}
       </div>
 
-      <div className="assigned-heists">
-        <h2>Heists You&apos;ve Assigned</h2>
+      <div>
+        <h2 className={styles.sectionHeading}>Heists You&apos;ve Assigned</h2>
         {assignedLoading ? (
-          <p>Loading…</p>
+          <div className={styles.grid}>
+            <HeistCardSkeleton />
+            <HeistCardSkeleton />
+            <HeistCardSkeleton />
+          </div>
         ) : assignedHeists.length === 0 ? (
-          <p>No assigned heists yet.</p>
+          <p className={styles.emptyState}>No assigned heists yet.</p>
         ) : (
-          <ul>
+          <div className={styles.grid}>
             {assignedHeists.map((h) => (
-              <li key={h.id}>{h.title}</li>
+              <HeistCard key={h.id} heist={h} />
             ))}
-          </ul>
+          </div>
         )}
       </div>
 
-      <div className="expired-heists">
-        <h2>All Expired Heists</h2>
+      <div>
+        <h2 className={styles.sectionHeading}>All Expired Heists</h2>
         {expiredLoading ? (
-          <p>Loading…</p>
+          <p className={styles.emptyState}>Loading…</p>
         ) : expiredHeists.length === 0 ? (
-          <p>No expired heists yet.</p>
+          <p className={styles.emptyState}>No expired heists yet.</p>
         ) : (
           <ul>
             {expiredHeists.map((h) => (
