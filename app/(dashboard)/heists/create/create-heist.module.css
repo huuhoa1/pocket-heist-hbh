@@ -1,0 +1,37 @@
+@reference "../../../globals.css";
+
+.formWrapper {
+  @apply my-4 mx-auto px-6;
+  max-width: 560px;
+  width: 100%;
+}
+
+.form {
+  @apply flex flex-col gap-4 mt-4;
+}
+
+.field {
+  @apply flex flex-col gap-1;
+}
+
+.field span {
+  @apply text-sm font-semibold;
+}
+
+.field input,
+.field textarea,
+.field select {
+  @apply bg-lighter border border-light rounded-lg px-3 py-2 w-full text-body;
+}
+
+.field textarea {
+  @apply resize-none;
+}
+
+.field select {
+  @apply cursor-pointer;
+}
+
+.error {
+  @apply text-sm text-error text-center;
+}

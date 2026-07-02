@@ -1,1 +1,1 @@
-"/home/can/Desktop/Dev/AI/Claude-Code-Masterclass/app/(public)/page.tsx"
+"/home/can/Desktop/Dev/AI/Claude-Code-Masterclass/tests/app/create-heist.test.tsx"
