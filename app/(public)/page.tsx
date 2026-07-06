@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Clock8 } from "lucide-react";
+import { BadgeShowcase } from "@/components/Badge";
 import styles from "./home.module.css";
 
 export default function Home() {
@@ -30,6 +31,8 @@ export default function Home() {
           <span className={styles.specValue}>Office Glory</span>
         </div>
       </div>
+
+      <BadgeShowcase />
 
       <p className={styles.body}>
         Welcome to Pocket Heist — the app where you assign sneaky little
