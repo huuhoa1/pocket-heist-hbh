@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# claude code tooling
+file-path.txt
+tool-use.json
+.claude/agent-memory/

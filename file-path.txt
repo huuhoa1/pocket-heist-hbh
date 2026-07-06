@@ -1,1 +1,0 @@
-"/home/can/Desktop/Dev/AI/Claude-Code-Masterclass/tests/components/HeistCard.test.tsx"
