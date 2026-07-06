@@ -2,7 +2,7 @@ import styles from "./HeistCard.module.css";
 
 export function HeistCardSkeleton() {
   return (
-    <article className={styles.card}>
+    <article className={styles.card} aria-label="Loading">
       <div className={styles.skeletonTitle} />
       <div className={styles.meta}>
         <div className={styles.skeletonLine} />
